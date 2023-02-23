@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project01win-example", "pro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project02console", "project02console\project02console.csproj", "{0082D2AE-791B-4A40-B1F6-85C5EF4D595D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "project03console", "..\..\..\Downloads\WebAutomationLabs\project03console\project03console.csproj", "{F8842A8B-C4D0-4B36-8886-BA04F19F8A66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0082D2AE-791B-4A40-B1F6-85C5EF4D595D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0082D2AE-791B-4A40-B1F6-85C5EF4D595D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0082D2AE-791B-4A40-B1F6-85C5EF4D595D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8842A8B-C4D0-4B36-8886-BA04F19F8A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8842A8B-C4D0-4B36-8886-BA04F19F8A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8842A8B-C4D0-4B36-8886-BA04F19F8A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8842A8B-C4D0-4B36-8886-BA04F19F8A66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
