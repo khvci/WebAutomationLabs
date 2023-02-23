@@ -26,7 +26,7 @@ namespace project02console
             HtmlWeb web = new HtmlWeb();
             HtmlDocument doc = web.Load("https://bigpara.hurriyet.com.tr/doviz/");
 
-            #region part1
+            #region first way
             //var dolarTitle = doc.DocumentNode.SelectSingleNode(dolarTitleXPath).InnerText;
             //var dolarAlis = doc.DocumentNode.SelectSingleNode(dolarAlisXPath).InnerText;
             //var dolarSatis = doc.DocumentNode.SelectSingleNode(dolarSatisXPath).InnerText;
@@ -66,7 +66,7 @@ namespace project02console
             //}
             #endregion
 
-            #region part2
+            #region better way
 
             var dovizTotal = doc.DocumentNode.SelectNodes(dovizXPath);
 
@@ -91,7 +91,7 @@ namespace project02console
 
             #endregion
 
-            Console.WriteLine("X!");
+            Console.ReadLine();
         }
     }
 }
