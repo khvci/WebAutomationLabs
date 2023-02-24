@@ -1,6 +1,5 @@
 {
   "url": "https://www.bing.com/search?q=coronavirus+statistics",
-  "country": null,
   "globalContainerXPath": "//*[@id=\"b_context\"]/li[1]/div/div[2]/div/div[1]/div[4]",
   "globalCasesConfirmedXPath": "./div[2]/div/div[1]/div[1]/div[2]/div[1]",
   "globalDeathsXPath": "./div[2]/div/div[1]/div[2]/div[2]/div[1]",

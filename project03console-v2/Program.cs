@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Configuration;
 
 namespace project03console_v2
 {
@@ -21,8 +22,8 @@ namespace project03console_v2
 
         static void Main(string[] args)
         {
-            FillAttributes();
             bool userWantsToExit = false;
+            FillAttributes();
 
             do
             {
@@ -78,15 +79,16 @@ namespace project03console_v2
 
         private static void FillAttributes()
         {
-            string configFilePath = System.Configuration.ConfigurationManager.AppSettings["ConfigFilePath"];
+            string configFilePath = ConfigurationManager.AppSettings["ConfigFilePath"];
             var configJson = File.ReadAllText(configFilePath);
             var config = JsonConvert.DeserializeObject<dynamic>(configJson);
 
             url = config.url;
-            country = config.country;
+
             globalContainerXPath = config.globalContainerXPath;
             globalCasesConfirmedXPath = config.globalCasesConfirmedXPath;
             globalDeathsXPath = config.globalDeathsXPath;
+
             localContainerXPath = config.localContainerXPath;
             localCasesConfirmedXPath = config.localCasesConfirmedXPath;
             localDeathsXPath = config.localDeathsXPath;
