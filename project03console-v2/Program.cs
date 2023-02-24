@@ -1,79 +1,95 @@
 ﻿using HtmlAgilityPack;
-using project03console_v2.Helpers;
+using Newtonsoft.Json;
 using System;
-using System.Linq;
+using System.IO;
 
 namespace project03console_v2
 {
     class Program
     {
-        static string url = "https://www.bing.com/search?q=coronavirus+statistics";
+        static string url;
         static string country;
         static HtmlNode[] nodes;
 
-        static string globalContainerXPath = "//*[@id=\"b_context\"]/li[1]/div/div[2]/div/div[1]/div[4]";
-        static string globalCasesConfirmedXPath = "./div[2]/div/div[1]/div[1]/div[2]/div[1]";
-        static string globalDeathsXPath = "./div[2]/div/div[1]/div[2]/div[2]/div[1]";
+        static string globalContainerXPath;
+        static string globalCasesConfirmedXPath;
+        static string globalDeathsXPath;
 
-        static string localContainerXPath = "//*[@id=\"b_context\"]/li[1]/div/div[2]/div/div[1]/div[2]";
-        static string localCasesConfirmedXPath = "./div[2]/div/div/div[1]/div[2]/div";
-        static string localDeathsXPath = "./div[2]/div/div/div[2]/div[2]/div";
-        
+        static string localContainerXPath;
+        static string localCasesConfirmedXPath;
+        static string localDeathsXPath;
+
         static void Main(string[] args)
         {
-            //country = "turkey";
-            //url += "+" + country;
-            //nodes = CreateNodes(localContainerXPath);
-            //foreach (var node in nodes)
+            FillAttributes();
+            bool userWantsToExit = false;
+
+            do
+            {
+                Console.WriteLine("Provide country name, or press Enter for global results, or Q for exit.");
+                country = Console.ReadLine();
+
+                switch (country)
+                {
+                    case "":
+                        nodes = NodeManager.CreateNodes(globalContainerXPath, url);
+                        foreach (var node in nodes)
+                        {
+                            Fetcher.GetGlobalNumbers(node, globalCasesConfirmedXPath, globalDeathsXPath);
+                        }
+                        break;
+                    case "Q":
+                    case "q":
+                        Console.WriteLine("BYE.");
+                        userWantsToExit = true;
+                        break;
+                    default:
+                        string generatedUrl = url + "+" + country;
+                        nodes = NodeManager.CreateNodes(localContainerXPath, generatedUrl);
+                        foreach (var node in nodes)
+                        {
+                            Fetcher.GetLocalNumbers(node, localCasesConfirmedXPath, localDeathsXPath, country);
+                        }
+                        break;
+                }
+            } while (!userWantsToExit);
+
+            //try
             //{
-            //    GetLocalNumbers(node);
+            //    country = args[0];
+            //    url += "+" + country;
+            //    nodes = CreateNodes(localContainerXPath);
+            //    foreach (var node in nodes)
+            //    {
+            //        GetLocalNumbers(node);
+            //    }
             //}
-
-
-            try
-            {
-                country = args[0];
-                url += "+" + country;
-                nodes = CreateNodes(localContainerXPath);
-                foreach (var node in nodes)
-                {
-                    GetLocalNumbers(node);
-                }
-            }
-            catch (Exception)
-            {
-                nodes = CreateNodes(globalContainerXPath);
-                foreach (var node in nodes)
-                {
-                    GetGlobalNumbers(node);
-                }
-            }
+            //catch (Exception)
+            //{
+            //    nodes = CreateNodes(globalContainerXPath);
+            //    foreach (var node in nodes)
+            //    {
+            //        GetGlobalNumbers(node);
+            //    }
+            //}
 
             Console.ReadKey();
         }
 
-        private static HtmlNode[] CreateNodes(string path)
+        private static void FillAttributes()
         {
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument doc = web.Load(url);
-            HtmlNode[] nodes = doc.DocumentNode.SelectNodes(path).ToArray();
-            return nodes;
-        }
+            string configFilePath = System.Configuration.ConfigurationManager.AppSettings["ConfigFilePath"];
+            var configJson = File.ReadAllText(configFilePath);
+            var config = JsonConvert.DeserializeObject<dynamic>(configJson);
 
-        private static void GetGlobalNumbers(HtmlNode node)
-        {
-            string globalCasesConfirmed = node.SelectSingleNode(globalCasesConfirmedXPath).InnerText.Clear();
-            string globalDeaths = node.SelectSingleNode(globalDeathsXPath).InnerText.Clear();
-
-            Console.WriteLine($"global cases (confirmed): {globalCasesConfirmed}, deaths: {globalDeaths}");
-        }
-
-        private static void GetLocalNumbers(HtmlNode node)
-        {
-            string localCasesConfirmed = node.SelectSingleNode(localCasesConfirmedXPath).InnerText.Clear();
-            string localDeaths = node.SelectSingleNode(localDeathsXPath).InnerText.Clear();
-
-            Console.WriteLine($"local cases for {country} (confirmed): {localCasesConfirmed}, deaths: {localDeaths}");
+            url = config.url;
+            country = config.country;
+            globalContainerXPath = config.globalContainerXPath;
+            globalCasesConfirmedXPath = config.globalCasesConfirmedXPath;
+            globalDeathsXPath = config.globalDeathsXPath;
+            localContainerXPath = config.localContainerXPath;
+            localCasesConfirmedXPath = config.localCasesConfirmedXPath;
+            localDeathsXPath = config.localDeathsXPath;
         }
     }
 }
